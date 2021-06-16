@@ -1,0 +1,20 @@
+[Unit]
+Description=Hadoop YARN
+After=syslog.target network.target remote-fs.target nss-lookup.target network-online.target
+Requires=network-online.target
+
+[Service]
+User=bryan
+Group=bryan
+Type=forking
+Restart=on-failure
+ExecStart=/usr/local/hadoop/sbin/start-yarn.sh
+ExecStop=/usr/local/hadoop/sbin/stop-yarn.sh
+Environment=JAVA_HOME=/home/bryan/.sdkman/candidates/java/current
+Environment=HADOOP_HOME=/usr/local/hadoop
+WorkingDirectory=/usr/local
+TimeoutStartSec=2min
+PIDFile=/tmp/hadoop-hadoop-namenode.pid
+
+[Install]
+WantedBy=multi-user.target

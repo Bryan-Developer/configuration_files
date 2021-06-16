@@ -1,0 +1,19 @@
+[Unit]
+Description=Spark Slave Service
+After=syslog.target network.target remote-fs.target nss-lookup.target network-online.target
+Requires=network-online.target
+
+[Service]
+User=bryan
+Group=bryan
+Type=forking
+Restart=on-failure
+ExecStart=/usr/local/spark/sbin/start-slave.sh spark://slayer-server:7077
+ExecStop=/usr/local/spark/sbin/stop-slave.sh spark://slayer-server:7077
+Environment=JAVA_HOME=/home/bryan/.sdkman/candidates/java/current
+Environment=HADOOP_HOME=/usr/local/hadoop
+WorkingDirectory=/usr/local
+TimeoutStartSec=2min
+
+[Install]
+WantedBy=multi-user.target
